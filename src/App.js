@@ -1,24 +1,23 @@
 import './App.css';
 import React, { useEffect, useState } from 'react';
 import { StyledInput } from './components/molecules/Input';
-import { WeatherContainer} from './components/molecules/WeatherContainer';
+import { WeatherDisplay} from './components/molecules/WeatherDisplay';
 import { SearchButton } from './components/atoms/SearchButton';
 import { CityTitle } from './components/atoms/CityTitle';
+import { AppTitle } from './components/atoms/AppTitle';
 import apiKeys from './keys';
-// const fetch = require("node-fetch");
 
 function App() {
-  const [value, setValue] = useState("London")
+  const [value, setValue] = useState("")
   const [data, setData] = useState()
 
-  useEffect(async ()=> {
-    const res = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=London&appid=${apiKeys}&units=metric`);
-    const data = await res.json();
-    return {
-      props: {
-          initial: data
-      }
+  useEffect(()=> {
+    async function fetchData () {
+        const res = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=London&appid=${apiKeys}&units=metric`);
+        const data = await res.json();
+        setData(data)
     }
+    fetchData()
   }, [])
 
   const handleChange = (event) => {
@@ -32,15 +31,17 @@ function App() {
     }
 
   const handleSearch = async () => {
-      let searchData = await getData(value)
-      if (searchData.props.data){
-          setData(searchData.props.data)
-      }else{
-          setData(null)
+      if(value.length) {
+        let searchData = await getData(value)
+        if (searchData.props.data){
+            setData(searchData.props.data)
+        }else{
+            setData(null)
+        }
       }
   }
 
-  const getData = async ( value) => {
+  const getData = async (value) => {
       const res = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${value}&appid=${apiKeys}&units=metric`)
       const data = await res.json()
       if (data.cod === "404"){
@@ -61,26 +62,24 @@ function App() {
   return (
     <div className="App">
         <div onKeyDown={handleKeyDown}>
-            <h1 role="heading">Weather App</h1>
+            <AppTitle>Weather App</AppTitle>
             <StyledInput
-            onChange={handleChange}
-            value={value}
-            placeholder="Please enter a city"
+                onChange={handleChange}
+                value={value}
+                placeholder="Please enter a city"
             />
-            <SearchButton
-            onClick={handleSearch}
-            >Search</SearchButton>
-            <WeatherContainer>
+            <SearchButton onClick={handleSearch}>Search</SearchButton>
+            <WeatherDisplay>
               {data ?
               <div>
               <CityTitle aria-label="title">{data.name}</CityTitle>
-              <img src={`http://openweathermap.org/img/wn/${data.weather[0].icon}.png`}/>
+              <img alt='Weather logo' src={`http://openweathermap.org/img/wn/${data.weather[0].icon}.png`}/>
               <div>{(data.weather[0].description).replace(/\b\w/g, l => l.toUpperCase())}</div>
               <div>Max: {data.main.temp_max} C°</div>
               <div>Min: {data.main.temp_min} C°</div>
               </div>
               : <div>City noy found</div> }
-            </WeatherContainer>
+            </WeatherDisplay>
         </div>
     </div>
   );

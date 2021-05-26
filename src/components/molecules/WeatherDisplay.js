@@ -1,7 +1,8 @@
 import styled from 'styled-components'
 
-export const WeatherContainer = styled.div`
+export const WeatherDisplay = styled.div`
     border: 1px solid;
+    background-color: white;
     box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.3);
     box-sizing: border-box;
     margin: auto;
@@ -11,3 +12,4 @@ export const WeatherContainer = styled.div`
     height: 200px;
     width: 300px;   
 `;
+
