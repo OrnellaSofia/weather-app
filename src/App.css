@@ -8,4 +8,6 @@
 body{
   background-color: #36486b;
   font-family: 'Ubuntu', sans-serif;
+  height: 100vh;
+  margin: 0;
 }

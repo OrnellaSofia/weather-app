@@ -1,10 +1,10 @@
 import './App.css';
 import React, { useEffect, useState } from 'react';
-import { StyledInput } from './components/molecules/Input';
-import { WeatherDisplay} from './components/molecules/WeatherDisplay';
-import { SearchButton } from './components/atoms/SearchButton';
-import { CityTitle } from './components/atoms/CityTitle';
-import { AppTitle } from './components/atoms/AppTitle';
+import { StyledInput } from './components/Input';
+import WeatherDisplay from './components/WeatherDisplay';
+import { SearchButton } from './components/SearchButton';
+import { AppTitle } from './components/AppTitle';
+import AppFooter from './components/AppFooter';
 import apiKeys from './keys';
 
 function App() {
@@ -69,18 +69,9 @@ function App() {
                 placeholder="Please enter a city"
             />
             <SearchButton onClick={handleSearch}>Search</SearchButton>
-            <WeatherDisplay>
-              {data ?
-              <div>
-              <CityTitle aria-label="title">{data.name}</CityTitle>
-              <img alt='Weather logo' src={`http://openweathermap.org/img/wn/${data.weather[0].icon}.png`}/>
-              <div>{(data.weather[0].description).replace(/\b\w/g, l => l.toUpperCase())}</div>
-              <div>Max: {data.main.temp_max} C°</div>
-              <div>Min: {data.main.temp_min} C°</div>
-              </div>
-              : <div>City noy found</div> }
-            </WeatherDisplay>
+            <WeatherDisplay data={data}/>
         </div>
+        <AppFooter />
     </div>
   );
 }
