@@ -1,3 +1,6 @@
+# GitHub Pages
+You can view and use the website here https://ornellasofia.github.io/weather-app/
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
